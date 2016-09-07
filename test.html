@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Ajax 测试1</title>
+	<script src="artTemplate.js"></script>
+	<script src="../jquery-3.0.0.min.js"></script>
+	<style>
+		body,ul,li{margin: 0;padding: 0;}
+		ul{text-align:center;margin-top:30px;}
+		li{list-style:none;font-size:20px;font-family:"microsoft yahei";padding:5px 0;}
+		*{ margin:0; padding:0; list-style:none;}
+		a{ text-decoration:none;}
+		a:hover{ text-decoration:none;}
+		.tcdPageCode{padding: 15px 20px;text-align: left;color: #ccc;}
+		.tcdPageCode a{display: inline-block;color: #428bca;display: inline-block;height: 25px;	line-height: 25px;	padding: 0 10px;border: 1px solid #ddd;	margin: 0 2px;border-radius: 4px;vertical-align: middle;}
+		.tcdPageCode a:hover{text-decoration: none;border: 1px solid #428bca;}
+		.tcdPageCode span.current{display: inline-block;height: 25px;line-height: 25px;padding: 0 10px;margin: 0 2px;color: #fff;background-color: #428bca;	border: 1px solid #428bca;border-radius: 4px;vertical-align: middle;}
+		.tcdPageCode span.disabled{	display: inline-block;height: 25px;line-height: 25px;padding: 0 10px;margin: 0 2px;	color: #bfbfbf;background: #f2f2f2;border: 1px solid #bfbfbf;border-radius: 4px;vertical-align: middle;}
+	</style>
+</head>
+<body onload="btnclick()">
+	<ul id="content" class="text">
+		<script id="test" type="text/html">
+			{{each title as value i}}
+		        <li>{{value.content}}</li>
+		    {{/each}}
+		</script>
+	</ul>
+	<a class="first" data-type="first" data-page="1" href="javscript:">首页</a>
+	<a class="prev" data-type="prev" data-page="1" href="javscript:">上一页</a>
+	<a class="next" data-type="next" data-page="2" href="javscript:">下一页</a>
+	<a class="last" data-type="last" data-page="3" href="javscript:">尾页</a>
+
+	<div class="tcdPageCode"></div>
+
+	<script src="myjs.js"></script>
+	<script src="http://www.lanrenzhijia.com/ajaxjs/jquery.min.js"></script>
+	<script src="http://www.lanrenzhijia.com/ajaxjs/jquery.page.js"></script>
+	<script>
+	    $(".tcdPageCode").createPage({
+	        pageCount:3,
+	        backFn:function(data){
+	            $.ajax({
+					type:"post",
+					url:"test.php",
+					data:{page:data},
+					dataType:"json",
+					success: function(a){
+						console.log(a);
+						var html=template('test', a);
+						document.getElementById('content').innerHTML = html;
+					}
+				});
+	        }
+	    });
+	</script>
+</body>
+</html>
